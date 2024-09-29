@@ -1,8 +1,9 @@
-
+import 'package:auth_app/pages/home_page.dart';
 import 'package:auth_app/pages/login_page.dart';
-import 'package:auth_app/pages/verify_email_page.dart';
+import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:auth_app/utils/my_circle.dart';
+import 'package:auth_app/utils/my_loading_circle.dart';
 import 'package:auth_app/utils/my_password_text_field.dart';
 import 'package:auth_app/utils/my_snack_bar.dart';
 import 'package:auth_app/utils/my_text_field.dart';
@@ -10,7 +11,8 @@ import 'package:auth_app/utils/my_text_field.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({super.key, required this.onTap});
+  final void Function()? onTap;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -30,7 +32,33 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool iAgree = false;
-  final MySnackBar mySnackBar = MySnackBar();
+  final mySnackBar = MySnackBar();
+
+  final loadingCircle = MyLoadingCircle();
+  final _auth = AuthService();
+
+  void register() async {
+    // show loading circle
+    loadingCircle.showLoadingCircle(context);
+
+    try {
+      await _auth.registerWithEmailAndPassword(
+          _emailController.text, _passwordController.text);
+      // hide loading circle
+      if (mounted) loadingCircle.hideLoadingCircle(context);
+        
+     
+    } catch (e) {
+      if (mounted) loadingCircle.hideLoadingCircle(context);
+      if (mounted) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(e.toString()),
+                ));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +67,12 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         leading: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LoginPage(
+                            onTap: null,
+                          )));
             },
             child: const Icon(Icons.arrow_back)),
       ),
@@ -168,10 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       mySnackBar.showSnackBar(context,
                           "Please agree to Privacy Policy and Terms of Use");
                     } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const VerifyEmailPage()));
+                      register();
                     }
                   },
                   child: const MyButton(

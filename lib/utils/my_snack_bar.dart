@@ -6,7 +6,7 @@ class MySnackBar {
       backgroundColor: Colors.red,
       content: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
       ),
     ));
   }

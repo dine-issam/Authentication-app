@@ -22,7 +22,7 @@ class ForgetPasswordPage extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => const LoginPage(onTap: null,)));
               },
               child:  Icon(
                 Icons.cancel_outlined,

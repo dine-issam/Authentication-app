@@ -20,7 +20,7 @@ class VerifyEmailPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const RegisterPage()));
+                        builder: (context) => const RegisterPage(onTap: null,)));
               },
               child: Icon(
                 Icons.cancel_outlined,

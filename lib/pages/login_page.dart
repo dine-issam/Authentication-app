@@ -1,16 +1,20 @@
 import 'package:auth_app/pages/forget_password_page.dart';
-import 'package:auth_app/pages/home_page.dart';
 import 'package:auth_app/pages/register_page.dart';
-
+import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:auth_app/utils/my_circle.dart';
+import 'package:auth_app/utils/my_loading_circle.dart';
 import 'package:auth_app/utils/my_password_text_field.dart';
 import 'package:auth_app/utils/my_snack_bar.dart';
 import 'package:auth_app/utils/my_text_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key,required this.onTap});
+
+
+  final void Function()? onTap;
+  
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -23,6 +27,29 @@ class _LoginPageState extends State<LoginPage> {
   bool rememberMe = false;
   bool showPassword = false;
   final MySnackBar mySnackBar = MySnackBar();
+
+  final _auth = AuthService();
+  final loadingCircle = MyLoadingCircle();
+
+  void login() async {
+    // show loading circle
+    loadingCircle.showLoadingCircle(context);
+    try {
+      await _auth.loginWithEmailAndPassword(
+          _emailController.text, _passwordController.text);
+      // hide loading circle
+      if (mounted) loadingCircle.hideLoadingCircle(context);
+    } catch (e) {
+      if (mounted) loadingCircle.hideLoadingCircle(context);
+      if (mounted) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(e.toString()),
+                ));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 25, bottom: 20),
                   child: Image.asset(
-
                     "assets/images/logo.png",
-                    
                     width: 80,
                   ),
                 ),
@@ -124,10 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                       mySnackBar.showSnackBar(
                           context, "Please fill all fields ");
                     } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                      login();
                     }
                   },
                   child: const MyButton(
@@ -138,12 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()));
-                  },
+                  onTap: widget.onTap,
                   child: Container(
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
@@ -167,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
