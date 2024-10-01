@@ -1,4 +1,4 @@
-import 'package:auth_app/pages/home_page.dart';
+
 import 'package:auth_app/utils/my_button.dart';
 import 'package:flutter/material.dart';
 
@@ -44,10 +44,7 @@ class SuccessfullyPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                  
                 },
                 child: const MyButton(
                   title: "Continue",

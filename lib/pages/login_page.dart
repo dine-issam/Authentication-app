@@ -1,5 +1,4 @@
 import 'package:auth_app/pages/forget_password_page.dart';
-import 'package:auth_app/pages/register_page.dart';
 import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:auth_app/utils/my_circle.dart';

@@ -1,6 +1,6 @@
-import 'package:auth_app/pages/home_page.dart';
 import 'package:auth_app/pages/login_page.dart';
 import 'package:auth_app/services/auth/auth_service.dart';
+import 'package:auth_app/services/database/database_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:auth_app/utils/my_circle.dart';
 import 'package:auth_app/utils/my_loading_circle.dart';
@@ -36,18 +36,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final loadingCircle = MyLoadingCircle();
   final _auth = AuthService();
+  final _db = DatabaseService();
 
-  void register() async {
+  void register(String name, username, email, phoneNumber) async {
     // show loading circle
     loadingCircle.showLoadingCircle(context);
 
     try {
       await _auth.registerWithEmailAndPassword(
           _emailController.text, _passwordController.text);
+
+      // save user info in FireStore
+      await _db.saveUserInfoInDatabase(name, username, email, phoneNumber);
       // hide loading circle
+
       if (mounted) loadingCircle.hideLoadingCircle(context);
-        
-     
+
+      await _db.saveUserInfoInDatabase(name, username, email, phoneNumber);
     } catch (e) {
       if (mounted) loadingCircle.hideLoadingCircle(context);
       if (mounted) {
@@ -200,7 +205,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       mySnackBar.showSnackBar(context,
                           "Please agree to Privacy Policy and Terms of Use");
                     } else {
-                      register();
+                      register(
+                          _firstNameController.text,
+                          _userNameController.text,
+                          _emailController.text,
+                          _phoneNumberController.text);
                     }
                   },
                   child: const MyButton(
