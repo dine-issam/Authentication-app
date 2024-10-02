@@ -1,9 +1,12 @@
 import 'package:auth_app/pages/login_page.dart';
+import 'package:auth_app/services/auth/auth_gate.dart';
+import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  const ResetPasswordPage({super.key});
+  const ResetPasswordPage({super.key, required this.email});
+  final String email;
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +18,8 @@ class ResetPasswordPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 25.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginPage(
-                              onTap: null,
-                            )));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AuthGate()));
               },
               child: Icon(
                 Icons.cancel_outlined,
@@ -49,7 +48,7 @@ class ResetPasswordPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text("dineissam@gmail.com"),
+            Text(email),
             const SizedBox(
               height: 10,
             ),
@@ -76,9 +75,14 @@ class ResetPasswordPage extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const Text(
-              "Resend Email",
-              style: TextStyle(color: Colors.blue),
+            GestureDetector(
+              onTap: () {
+                AuthService().sendEmailResetPasswordLink(email);
+              },
+              child: const Text(
+                "Resend Email",
+                style: TextStyle(color: Colors.blue),
+              ),
             ),
           ],
         ),

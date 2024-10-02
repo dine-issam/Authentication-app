@@ -1,11 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:auth_app/models/user.dart';
-import 'package:auth_app/pages/home_page.dart'; // Import the HomePage
-import 'package:auth_app/pages/login_page.dart';
+// Import the HomePage
+
 import 'package:auth_app/pages/successfully_page.dart';
 import 'package:auth_app/services/auth/auth_service.dart';
-import 'package:auth_app/services/auth/login_or_register.dart';
+
 import 'package:auth_app/services/database/database_provider.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   // Load user data from the database
+  // ignore: non_constant_identifier_names
   Future<void> LoadUser() async {
     user = await databaseProvider.userProfile(widget.uid);
     setState(() {

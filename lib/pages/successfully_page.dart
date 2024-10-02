@@ -1,7 +1,4 @@
-import 'package:auth_app/pages/home_page.dart';
-import 'package:auth_app/pages/login_page.dart';
 import 'package:auth_app/services/auth/auth_gate.dart';
-import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:flutter/material.dart';
 

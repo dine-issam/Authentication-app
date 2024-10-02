@@ -1,5 +1,4 @@
 import 'package:auth_app/models/user.dart';
-import 'package:auth_app/services/auth/auth_gate.dart';
 import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/services/database/database_provider.dart';
 

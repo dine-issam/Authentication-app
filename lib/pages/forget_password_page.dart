@@ -1,14 +1,41 @@
-import 'package:auth_app/pages/login_page.dart';
 import 'package:auth_app/pages/reset_password_page.dart';
+import 'package:auth_app/services/auth/auth_gate.dart';
+import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
+import 'package:auth_app/utils/my_loading_circle.dart';
 import 'package:auth_app/utils/my_text_field.dart';
 import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/widgets.dart';
 
-class ForgetPasswordPage extends StatelessWidget {
-  ForgetPasswordPage({super.key});
+class ForgetPasswordPage extends StatefulWidget {
+  const ForgetPasswordPage({super.key});
+
+  @override
+  State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();
+}
+
+class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
+
+  final _auth = AuthService();
+  final loadingCircle = MyLoadingCircle();
+
+  void _resetPassword(String email) async {
+    try {
+      loadingCircle.showLoadingCircle(context);
+      await _auth.sendEmailResetPasswordLink(email);
+      if (mounted) loadingCircle.hideLoadingCircle(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ResetPasswordPage(
+                    email: _emailController.text,
+                  )));
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +49,9 @@ class ForgetPasswordPage extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage(onTap: null,)));
+                    MaterialPageRoute(builder: (context) => AuthGate()));
               },
-              child:  Icon(
+              child: Icon(
                 Icons.cancel_outlined,
                 color: Theme.of(context).colorScheme.primary,
                 size: 30,
@@ -55,10 +82,7 @@ class ForgetPasswordPage extends StatelessWidget {
             const SizedBox(height: 40),
             GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ResetPasswordPage()));
+                  _resetPassword(_emailController.text);
                 },
                 child: const MyButton(title: "Submit"))
           ],
