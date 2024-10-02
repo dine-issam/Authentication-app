@@ -1,4 +1,5 @@
 import 'package:auth_app/models/user.dart';
+import 'package:auth_app/services/auth/auth_gate.dart';
 import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/services/database/database_provider.dart';
 
@@ -43,13 +44,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final TextEditingController bioTextController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: const Text("Profile Page"),
       ),

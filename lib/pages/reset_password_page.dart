@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +15,14 @@ class ResetPasswordPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 25.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage(onTap: null,)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginPage(
+                              onTap: null,
+                            )));
               },
-              child:  Icon(
+              child: Icon(
                 Icons.cancel_outlined,
                 color: Theme.of(context).colorScheme.primary,
                 size: 30,
@@ -59,8 +62,12 @@ class ResetPasswordPage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage(onTap: null,)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginPage(
+                              onTap: null,
+                            )));
               },
               child: const MyButton(
                 title: "Done",

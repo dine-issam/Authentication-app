@@ -31,6 +31,16 @@ class AuthService {
     }
   }
 
+  // Send email verification link
+
+  Future<void> sendEmailVerificationLink() async {
+    try {
+      await _auth.currentUser?.sendEmailVerification();
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.code);
+    }
+  }
+
   // logout
   Future<void> logout() async {
     await _auth.signOut();

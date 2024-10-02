@@ -1,4 +1,7 @@
-
+import 'package:auth_app/pages/home_page.dart';
+import 'package:auth_app/pages/login_page.dart';
+import 'package:auth_app/services/auth/auth_gate.dart';
+import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/utils/my_button.dart';
 import 'package:flutter/material.dart';
 
@@ -32,11 +35,8 @@ class SuccessfullyPage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const SizedBox(
-                height: 10,
-              ),
               const Text(
-                "Congratulations! your Account Awaits Verify Your Email yo Start Shopping and Experience a World of Unrivaled  ",
+                "Congratulations! Your account awaits. Verify your email to start shopping and experience a world of unrivaled opportunities!",
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -44,15 +44,19 @@ class SuccessfullyPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  
+                  // Navigate to HomePage after verification
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  AuthGate(),
+                    ),
+                  );
                 },
                 child: const MyButton(
                   title: "Continue",
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:auth_app/pages/login_page.dart';
+import 'package:auth_app/services/auth/auth_gate.dart';
 import 'package:auth_app/services/auth/auth_service.dart';
 import 'package:auth_app/services/database/database_service.dart';
 import 'package:auth_app/utils/my_button.dart';
@@ -46,12 +47,10 @@ class _RegisterPageState extends State<RegisterPage> {
       await _auth.registerWithEmailAndPassword(
           _emailController.text, _passwordController.text);
 
-      // save user info in FireStore
-      await _db.saveUserInfoInDatabase(name, username, email, phoneNumber);
       // hide loading circle
 
       if (mounted) loadingCircle.hideLoadingCircle(context);
-
+      // save user info in FireStore
       await _db.saveUserInfoInDatabase(name, username, email, phoneNumber);
     } catch (e) {
       if (mounted) loadingCircle.hideLoadingCircle(context);
@@ -75,9 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const LoginPage(
-                            onTap: null,
-                          )));
+                      builder: (context) =>  AuthGate()));
             },
             child: const Icon(Icons.arrow_back)),
       ),

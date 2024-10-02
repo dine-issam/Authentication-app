@@ -9,11 +9,9 @@ import 'package:auth_app/utils/my_text_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key,required this.onTap});
-
+  const LoginPage({super.key, required this.onTap});
 
   final void Function()? onTap;
-  
 
   @override
   State<LoginPage> createState() => _LoginPageState();
